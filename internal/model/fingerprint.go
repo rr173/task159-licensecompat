@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"sort"
 	"strings"
+	"time"
 )
 
 func CanonicalLicense(value string) string {
@@ -30,7 +31,7 @@ func SubmissionFingerprint(s Submission) (string, error) {
 	copy := s
 	copy.ID = ""
 	copy.Fingerprint = ""
-	copy.CreatedAt = copy.CreatedAt.UTC().Truncate(0)
+	copy.CreatedAt = time.Time{}
 	sort.Slice(copy.Components, func(i, j int) bool { return copy.Components[i].ID < copy.Components[j].ID })
 	sort.Slice(copy.Edges, func(i, j int) bool {
 		if copy.Edges[i].From != copy.Edges[j].From {
