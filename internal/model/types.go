@@ -141,3 +141,10 @@ func FindingKey(f Finding) string {
 	sort.Strings(components)
 	return f.Code + "|" + strings.Join(components, ",") + "|" + f.Message
 }
+
+func ValidateComparisonIDs(left, right string) error {
+	if strings.TrimSpace(left) == "" || strings.TrimSpace(right) == "" {
+		return Invalid("compare", "left and right analysis IDs are required")
+	}
+	return nil
+}

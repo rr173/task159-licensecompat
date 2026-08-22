@@ -143,7 +143,9 @@ func (a *API) publish(w http.ResponseWriter, r *http.Request) {
 	respond(w, value, err, http.StatusOK)
 }
 func (a *API) compare(w http.ResponseWriter, r *http.Request) {
-	value, err := a.service.Compare(r.Context(), r.URL.Query().Get("left"), r.URL.Query().Get("right"))
+	left := strings.TrimSpace(r.URL.Query().Get("left"))
+	right := strings.TrimSpace(r.URL.Query().Get("right"))
+	value, err := a.service.Compare(r.Context(), left, right)
 	respond(w, value, err, http.StatusOK)
 }
 func (a *API) audit(w http.ResponseWriter, r *http.Request) {

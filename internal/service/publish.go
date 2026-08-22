@@ -49,6 +49,9 @@ func (s *Service) Publish(ctx context.Context, analysisID string) (model.Analysi
 	return value, nil
 }
 func (s *Service) Compare(ctx context.Context, leftID, rightID string) (any, error) {
+	if err := model.ValidateComparisonIDs(leftID, rightID); err != nil {
+		return nil, err
+	}
 	left, err := s.store.Findings(ctx, leftID)
 	if err != nil {
 		return nil, err
