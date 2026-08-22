@@ -10,6 +10,9 @@ import (
 )
 
 func (s *Store) SaveSubmission(ctx context.Context, value model.Submission) (model.Submission, bool, error) {
+	for i := range value.Components {
+		value.Components[i].License = model.CanonicalLicense(value.Components[i].License)
+	}
 	payload, err := json.Marshal(value)
 	if err != nil {
 		return model.Submission{}, false, err

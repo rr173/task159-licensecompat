@@ -31,3 +31,9 @@ func TestSnapshotRoundTrip(t *testing.T) {
 		t.Fatalf("unexpected %#v", restored)
 	}
 }
+
+func TestCanonicalLicenseAliases(t *testing.T) {
+	if CanonicalLicense("GPL3") != "GPL-3.0" || CanonicalLicense("apache 2.0") != "APACHE-2.0" {
+		t.Fatal("license aliases must have one canonical spelling")
+	}
+}

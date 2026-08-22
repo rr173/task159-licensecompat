@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/rr173/task159-licensecompat/internal/model"
-	"strings"
 )
 
 func (s *Service) Submit(ctx context.Context, value model.Submission) (model.Submission, bool, error) {
@@ -14,7 +13,7 @@ func (s *Service) Submit(ctx context.Context, value model.Submission) (model.Sub
 	}
 	value.CreatedAt = now
 	for i := range value.Components {
-		value.Components[i].License = strings.TrimSpace(value.Components[i].License)
+		value.Components[i].License = model.CanonicalLicense(value.Components[i].License)
 		if value.Components[i].Status == "" {
 			value.Components[i].Status = model.ComponentPending
 		}
