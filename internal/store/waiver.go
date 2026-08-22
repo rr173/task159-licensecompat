@@ -10,6 +10,17 @@ import (
 )
 
 func (s *Store) SaveWaiver(ctx context.Context, value model.Waiver) error {
+	var findingPayload string
+	if err := s.db.QueryRowContext(ctx, `SELECT payload FROM findings WHERE id=?`, value.FindingID).Scan(&findingPayload); err != nil {
+		return fmt.Errorf("%w: finding", model.ErrNotFound)
+	}
+	var finding model.Finding
+	if err := json.Unmarshal([]byte(findingPayload), &finding); err != nil {
+		return err
+	}
+	if !model.CanWaiveFinding(finding.Kind) {
+		return fmt.Errorf("%w: only blocker findings can be waived", model.ErrInvalidState)
+	}
 	payload, err := json.Marshal(value)
 	if err != nil {
 		return err

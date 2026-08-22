@@ -111,3 +111,5 @@ func CanTransitionAnalysis(from, to AnalysisStatus) bool {
 func CanTransitionWaiver(from, to WaiverStatus) bool {
 	return (from == WaiverRequested && (to == WaiverApproved || to == WaiverRejected)) || (from == WaiverApproved && to == WaiverExpired)
 }
+
+func CanWaiveFinding(kind FindingKind) bool { return kind == FindingBlocker }

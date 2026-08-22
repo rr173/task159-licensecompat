@@ -26,7 +26,7 @@ func (s *Service) RequestWaiver(ctx context.Context, analysisID, findingID, reas
 	if found == nil {
 		return model.Waiver{}, fmt.Errorf("%w: finding", model.ErrNotFound)
 	}
-	if found.Kind != model.FindingBlocker {
+	if !model.CanWaiveFinding(found.Kind) {
 		return model.Waiver{}, fmt.Errorf("%w: only blocker findings can be waived", model.ErrInvalidState)
 	}
 	now := s.clock().UTC()
