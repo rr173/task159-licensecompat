@@ -20,10 +20,10 @@ func Compare(left, right []model.Finding) Comparison {
 	l := map[string]model.Finding{}
 	r := map[string]model.Finding{}
 	for _, finding := range left {
-		l[finding.Code+":"+join(finding.Components)] = finding
+		l[model.FindingKey(finding)] = finding
 	}
 	for _, finding := range right {
-		r[finding.Code+":"+join(finding.Components)] = finding
+		r[model.FindingKey(finding)] = finding
 	}
 	result := Comparison{}
 	for key, finding := range r {

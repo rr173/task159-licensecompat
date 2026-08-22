@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"sort"
+	"strings"
+	"time"
+)
 
 type PolicyStatus string
 
@@ -130,4 +134,10 @@ type Waiver struct {
 type Decision struct {
 	Analysis Analysis  `json:"analysis"`
 	Findings []Finding `json:"findings"`
+}
+
+func FindingKey(f Finding) string {
+	components := append([]string(nil), f.Components...)
+	sort.Strings(components)
+	return f.Code + "|" + strings.Join(components, ",") + "|" + f.Message
 }

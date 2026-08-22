@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/rr173/task159-licensecompat/internal/analysis"
 	"github.com/rr173/task159-licensecompat/internal/model"
 )
 
@@ -56,7 +57,7 @@ func (s *Service) Compare(ctx context.Context, leftID, rightID string) (any, err
 	if err != nil {
 		return nil, err
 	}
-	return map[string]any{"left": leftID, "right": rightID, "comparison": compareFindings(left, right)}, nil
+	return map[string]any{"left": leftID, "right": rightID, "comparison": analysis.Compare(left, right)}, nil
 }
 func compareFindings(left, right []model.Finding) map[string]any {
 	leftSet := map[string]model.Finding{}
