@@ -57,6 +57,16 @@ func (s *Store) RecoverableAnalyses(ctx context.Context) ([]model.Analysis, erro
 }
 func (s *Store) UpdateAnalysis(ctx context.Context, value model.Analysis) error {
 	return s.transaction(ctx, func(tx *sql.Tx) error {
+		var current string
+		if err := tx.QueryRowContext(ctx, `SELECT status FROM analyses WHERE id=?`, value.ID).Scan(&current); err != nil {
+			if errors.Is(err, sql.ErrNoRows) {
+				return fmt.Errorf("%w: analysis", model.ErrNotFound)
+			}
+			return err
+		}
+		if !model.CanTransitionAnalysis(model.AnalysisStatus(current), value.Status) && current != string(value.Status) {
+			return fmt.Errorf("%w: analysis %s -> %s", model.ErrInvalidState, current, value.Status)
+		}
 		result, err := tx.ExecContext(ctx, `UPDATE analyses SET status=?,published_at=?,updated_at=? WHERE id=?`, value.Status, nullableTime(value.PublishedAt), timestamp(value.UpdatedAt), value.ID)
 		if err != nil {
 			return err
