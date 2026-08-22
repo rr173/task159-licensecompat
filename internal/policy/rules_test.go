@@ -1,7 +1,7 @@
 package policy
 
 import (
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 	"testing"
 )
 

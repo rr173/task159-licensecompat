@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Service) CreatePolicy(ctx context.Context, value model.Policy) (model.Policy, error) {

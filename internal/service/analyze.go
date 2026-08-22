@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/analysis"
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/analysis"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Service) Analyze(ctx context.Context, submissionID string) (model.Decision, error) {

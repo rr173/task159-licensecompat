@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rr173/task159-licensecompat/internal/model"
-	"github.com/rr173/task159-licensecompat/internal/policy"
+	"licensecompat.local/internal/model"
+	"licensecompat.local/internal/policy"
 )
 
 type Result struct {

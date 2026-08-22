@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 type Verdict struct {

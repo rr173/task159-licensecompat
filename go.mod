@@ -1,4 +1,4 @@
-module github.com/rr173/task159-licensecompat
+module licensecompat.local
 
 go 1.26.3
 

@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"github.com/rr173/task159-licensecompat/internal/store"
+	"licensecompat.local/internal/store"
 	"sync"
 	"time"
 )

@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Service) Submit(ctx context.Context, value model.Submission) (model.Submission, bool, error) {

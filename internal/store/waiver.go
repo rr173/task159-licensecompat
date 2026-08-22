@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Store) SaveWaiver(ctx context.Context, value model.Waiver) error {

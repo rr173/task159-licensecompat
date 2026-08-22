@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Store) SaveSubmission(ctx context.Context, value model.Submission) (model.Submission, bool, error) {

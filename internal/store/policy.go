@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/rr173/task159-licensecompat/internal/model"
+	"licensecompat.local/internal/model"
 )
 
 func (s *Store) SavePolicy(ctx context.Context, policy model.Policy) error {

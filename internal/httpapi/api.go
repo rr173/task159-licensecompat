@@ -3,8 +3,8 @@ package httpapi
 import (
 	"encoding/json"
 	"errors"
-	"github.com/rr173/task159-licensecompat/internal/model"
-	"github.com/rr173/task159-licensecompat/internal/service"
+	"licensecompat.local/internal/model"
+	"licensecompat.local/internal/service"
 	"net/http"
 	"strings"
 	"time"

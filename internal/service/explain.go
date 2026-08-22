@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/rr173/task159-licensecompat/internal/analysis"
+	"licensecompat.local/internal/analysis"
 )
 
 func (s *Service) Explain(ctx context.Context, analysisID string) ([]analysis.Explanation, error) {
