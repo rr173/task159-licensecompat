@@ -113,3 +113,7 @@ func CanTransitionWaiver(from, to WaiverStatus) bool {
 }
 
 func CanWaiveFinding(kind FindingKind) bool { return kind == FindingBlocker }
+
+func CanReplaceFindings(status AnalysisStatus) bool {
+	return status != AnalysisPublished && status != AnalysisSuperseded
+}

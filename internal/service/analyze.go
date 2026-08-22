@@ -43,7 +43,7 @@ func (s *Service) Analyze(ctx context.Context, submissionID string) (model.Decis
 		_ = s.store.UpdateAnalysis(ctx, value)
 		return model.Decision{}, fmt.Errorf("evaluate: %w", err)
 	}
-	if err := s.store.ReplaceFindings(ctx, value.ID, result.Findings); err != nil {
+	if err := s.ReplaceFindings(ctx, value.ID, result.Findings); err != nil {
 		return model.Decision{}, err
 	}
 	summary := model.Summarize(result.Findings, submission.Components)
@@ -57,6 +57,17 @@ func (s *Service) Analyze(ctx context.Context, submissionID string) (model.Decis
 		return model.Decision{}, err
 	}
 	return model.Decision{Analysis: value, Findings: result.Findings}, nil
+}
+
+func (s *Service) ReplaceFindings(ctx context.Context, analysisID string, findings []model.Finding) error {
+	value, err := s.store.Analysis(ctx, analysisID)
+	if err != nil {
+		return err
+	}
+	if !model.CanReplaceFindings(value.Status) {
+		return fmt.Errorf("%w: findings are frozen", model.ErrImmutable)
+	}
+	return s.store.ReplaceFindings(ctx, analysisID, findings)
 }
 func (s *Service) Decision(ctx context.Context, id string) (model.Decision, error) {
 	analysisValue, err := s.store.Analysis(ctx, id)
