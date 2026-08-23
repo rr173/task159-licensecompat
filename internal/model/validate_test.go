@@ -18,6 +18,15 @@ func TestAnalysisTransitions(t *testing.T) {
 	}
 }
 
+func TestCanReplaceFindingsRespectsPublication(t *testing.T) {
+	if !CanReplaceFindings(AnalysisQueued) || !CanReplaceFindings(AnalysisBlocked) || !CanReplaceFindings(AnalysisReviewable) {
+		t.Fatal("pre-publication analysis must allow findings replacement")
+	}
+	if CanReplaceFindings(AnalysisPublished) {
+		t.Fatal("published analysis must freeze findings")
+	}
+}
+
 func TestCanonicalLicenses(t *testing.T) {
 	got := CanonicalLicenses([]string{" mit ", "MIT", "GPL-3.0"})
 	if len(got) != 2 || got[0] != "GPL-3.0" {

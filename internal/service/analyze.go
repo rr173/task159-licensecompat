@@ -60,8 +60,12 @@ func (s *Service) Analyze(ctx context.Context, submissionID string) (model.Decis
 }
 
 func (s *Service) ReplaceFindings(ctx context.Context, analysisID string, findings []model.Finding) error {
-	if _, err := s.store.Analysis(ctx, analysisID); err != nil {
+	value, err := s.store.Analysis(ctx, analysisID)
+	if err != nil {
 		return err
+	}
+	if !model.CanReplaceFindings(value.Status) {
+		return fmt.Errorf("%w: findings are frozen for published analysis %s", model.ErrImmutable, analysisID)
 	}
 	return s.store.ReplaceFindings(ctx, analysisID, findings)
 }

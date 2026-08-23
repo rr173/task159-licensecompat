@@ -80,6 +80,16 @@ func (s *Store) UpdateAnalysis(ctx context.Context, value model.Analysis) error 
 }
 func (s *Store) ReplaceFindings(ctx context.Context, analysisID string, findings []model.Finding) error {
 	return s.transaction(ctx, func(tx *sql.Tx) error {
+		var current string
+		if err := tx.QueryRowContext(ctx, `SELECT status FROM analyses WHERE id=?`, analysisID).Scan(&current); err != nil {
+			if errors.Is(err, sql.ErrNoRows) {
+				return fmt.Errorf("%w: analysis", model.ErrNotFound)
+			}
+			return err
+		}
+		if !model.CanReplaceFindings(model.AnalysisStatus(current)) {
+			return fmt.Errorf("%w: findings are frozen for published analysis %s", model.ErrImmutable, analysisID)
+		}
 		if _, err := tx.ExecContext(ctx, `DELETE FROM findings WHERE analysis_id=?`, analysisID); err != nil {
 			return err
 		}
