@@ -26,6 +26,9 @@ func (s *Service) RequestWaiver(ctx context.Context, analysisID, findingID, reas
 	if found == nil {
 		return model.Waiver{}, fmt.Errorf("%w: finding", model.ErrNotFound)
 	}
+	if !model.CanWaiveFinding(found.Kind) {
+		return model.Waiver{}, fmt.Errorf("%w: waiver", model.ErrInvalidState)
+	}
 	now := s.clock().UTC()
 	value := model.Waiver{ID: newID("waiver", now), AnalysisID: analysisID, FindingID: findingID, Reason: reason, Status: model.WaiverRequested, ExpiresAt: expiresAt, CreatedAt: now, UpdatedAt: now}
 	if err := s.store.SaveWaiver(ctx, value); err != nil {
