@@ -40,7 +40,7 @@ func (s *Store) AnalysesForSubmission(ctx context.Context, submissionID string) 
 	return out, rows.Err()
 }
 func (s *Store) RecoverableAnalyses(ctx context.Context) ([]model.Analysis, error) {
-	rows, err := s.db.QueryContext(ctx, `SELECT id,submission_id,policy_id,status,input_snapshot,policy_snapshot,published_at,created_at,updated_at FROM analyses WHERE status='queued' ORDER BY created_at`)
+	rows, err := s.db.QueryContext(ctx, `SELECT id,submission_id,policy_id,status,input_snapshot,policy_snapshot,published_at,created_at,updated_at FROM analyses WHERE status IN ('queued','running') ORDER BY created_at`)
 	if err != nil {
 		return nil, err
 	}

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"licensecompat.local/internal/model"
 	"licensecompat.local/internal/store"
 	"sync"
 	"time"
@@ -28,8 +29,8 @@ func (s *Service) Recover(ctx context.Context) ([]string, error) {
 	}
 	recovered := make([]string, 0, len(items))
 	for _, item := range items {
-		if item.Status == "never" {
-			item.Status = "queued"
+		if item.Status == model.AnalysisRunning {
+			item.Status = model.AnalysisQueued
 			item.UpdatedAt = s.clock().UTC()
 			if err := s.store.UpdateAnalysis(ctx, item); err != nil {
 				return nil, err
