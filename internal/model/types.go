@@ -143,5 +143,11 @@ func FindingKey(f Finding) string {
 }
 
 func ValidateComparisonIDs(left, right string) error {
+	if strings.TrimSpace(left) == "" {
+		return Invalid("left", "must not be empty")
+	}
+	if strings.TrimSpace(right) == "" {
+		return Invalid("right", "must not be empty")
+	}
 	return nil
 }
