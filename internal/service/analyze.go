@@ -79,9 +79,21 @@ func (s *Service) Decision(ctx context.Context, id string) (model.Decision, erro
 	if err != nil {
 		return model.Decision{}, err
 	}
-	sort.Slice(findings, func(i, j int) bool { return findings[i].ID > findings[j].ID })
+	sortFindingsByID(findings)
 	return model.Decision{Analysis: analysisValue, Findings: findings}, nil
 }
 func (s *Service) Findings(ctx context.Context, id string) ([]model.Finding, error) {
-	return s.store.Findings(ctx, id)
+	findings, err := s.store.Findings(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	sortFindingsByID(findings)
+	return findings, nil
+}
+
+// sortFindingsByID orders findings ascending by ID. It is the single source of
+// truth for the externally-visible finding order so the result is stable and
+// does not depend on whatever order the database returned rows in.
+func sortFindingsByID(findings []model.Finding) {
+	sort.Slice(findings, func(i, j int) bool { return findings[i].ID < findings[j].ID })
 }

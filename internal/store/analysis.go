@@ -106,7 +106,10 @@ func (s *Store) ReplaceFindings(ctx context.Context, analysisID string, findings
 	})
 }
 func (s *Store) Findings(ctx context.Context, analysisID string) ([]model.Finding, error) {
-	rows, err := s.db.QueryContext(ctx, `SELECT payload FROM findings WHERE analysis_id=? ORDER BY id DESC`, analysisID)
+	// Order ascending by finding ID so the store's own contract is stable and
+	// matches the externally-required direction. Callers that expose findings
+	// still re-sort in Go so the external order never depends on DB row order.
+	rows, err := s.db.QueryContext(ctx, `SELECT payload FROM findings WHERE analysis_id=? ORDER BY id ASC`, analysisID)
 	if err != nil {
 		return nil, err
 	}
