@@ -40,7 +40,7 @@ func SubmissionFingerprint(s Submission) (string, error) {
 		return copy.Edges[i].To < copy.Edges[j].To
 	})
 	for i := range copy.Components {
-		copy.Components[i].License = strings.TrimSpace(copy.Components[i].License)
+		copy.Components[i].License = CanonicalLicense(copy.Components[i].License)
 		if copy.Components[i].Metadata == nil {
 			copy.Components[i].Metadata = map[string]string{}
 		}
