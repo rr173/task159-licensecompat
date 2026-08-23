@@ -57,7 +57,7 @@ func Evaluate(submission model.Submission, active model.Policy, analysisID strin
 func componentFindings(component model.Component, analysisID string, now time.Time) []model.Finding {
 	findings := []model.Finding{}
 	if strings.TrimSpace(component.License) == "" {
-		findings = append(findings, newFinding(analysisID, model.FindingWarning, "component.missing-license", "component has no declared license", []string{component.ID}, []string{"component:" + component.ID}, now))
+		findings = append(findings, newFinding(analysisID, model.FindingBlocker, "component.missing-license", "component has no declared license", []string{component.ID}, []string{"component:" + component.ID}, now))
 		return findings
 	}
 	if component.Status == model.ComponentDisputed {

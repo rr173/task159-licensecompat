@@ -18,9 +18,7 @@ func Summarize(findings []Finding, components []Component) Summary {
 	for _, finding := range findings {
 		switch finding.Kind {
 		case FindingBlocker:
-			if finding.Code != "component.missing-license" {
-				s.Blockers++
-			}
+			s.Blockers++
 		case FindingWarning:
 			s.Warnings++
 		case FindingObligation:
