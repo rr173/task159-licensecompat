@@ -94,7 +94,7 @@ func CanonicalLicenses(values []string) []string {
 
 func CanTransitionAnalysis(from, to AnalysisStatus) bool {
 	allowed := map[AnalysisStatus][]AnalysisStatus{
-		AnalysisQueued:     {AnalysisRunning, AnalysisPublished, AnalysisSuperseded},
+		AnalysisQueued:     {AnalysisRunning, AnalysisSuperseded},
 		AnalysisRunning:    {AnalysisBlocked, AnalysisReviewable, AnalysisQueued},
 		AnalysisBlocked:    {AnalysisReviewable, AnalysisPublished, AnalysisSuperseded},
 		AnalysisReviewable: {AnalysisBlocked, AnalysisPublished, AnalysisSuperseded},

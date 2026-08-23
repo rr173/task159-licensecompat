@@ -17,7 +17,10 @@ func (s *Service) Publish(ctx context.Context, analysisID string) (model.Analysi
 	if value.Status == model.AnalysisPublished {
 		return model.Analysis{}, fmt.Errorf("%w: analysis already published", model.ErrImmutable)
 	}
-	if value.Status != model.AnalysisQueued && value.Status != model.AnalysisReviewable && value.Status != model.AnalysisBlocked {
+	if value.Status == model.AnalysisQueued {
+		return model.Analysis{}, fmt.Errorf("%w: analysis still queued and has not been reviewed", model.ErrInvalidState)
+	}
+	if value.Status != model.AnalysisReviewable && value.Status != model.AnalysisBlocked {
 		return model.Analysis{}, fmt.Errorf("%w: analysis must be reviewed before publication", model.ErrInvalidState)
 	}
 	findings, err := s.store.Findings(ctx, analysisID)
